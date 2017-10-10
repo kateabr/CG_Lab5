@@ -2,6 +2,7 @@
 #define TABLEMODEL_H
 
 #include "drawable.h"
+#include "graham.h"
 #include "matrix3x2.h"
 #include "primitives.h"
 #include <QtWidgets>
@@ -24,7 +25,14 @@ public:
     return QVariant();
   }
 
-  QVector<Drawable *> getData() const { return drawables; }
+  QVector<Drawable *> getData() const {
+    QVector<Drawable *> res;
+    for (int i = 0; i < drawables.size(); ++i)
+      res.push_back(drawables[i]);
+    for (int i = 0; i < hull.size(); ++i)
+      res.push_back(new DrawableLine(hull[i], hull[(i + 1) % hull.size()]));
+    return res;
+  }
 
   void add(Drawable *item) {
     beginInsertRows(QModelIndex(), drawables.size(), drawables.size());
@@ -46,13 +54,12 @@ public:
     return true;
   }
 
-  void update(Matrix3x2 &tr, QModelIndexList &list, bool aroundCenter) {
-    if (!aroundCenter) {
-      for (int i = 0; i < list.size(); ++i)
-        drawables[list[i].row()]->update(tr);
-    } else
-      for (int i = 0; i < list.size(); ++i)
-        drawables[list[i].row()]->updateCenter(tr);
+  void update() {
+    hull.clear();
+    QVector<QPointF> points;
+    for (int i = 0; i < drawables.size(); ++i)
+      points.push_back(static_cast<DrawablePoint *>(drawables[i])->getCenter());
+    hull = Graham::buildConvexHull(points);
   }
 
   void intersect(int ind1, int ind2) {
@@ -72,6 +79,7 @@ public:
 
 private:
   QVector<Drawable *> drawables;
+  QVector<QPointF> hull;
 };
 
 #endif // TABLEMODEL_H

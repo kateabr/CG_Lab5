@@ -47,6 +47,8 @@ public:
   }
 
   QString toString() override { return "Point " + pToStr(center); }
+
+  QPointF getCenter() const { return center; }
 };
 
 class DrawableLine : public Drawable {

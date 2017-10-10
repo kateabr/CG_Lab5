@@ -22,7 +22,7 @@ QVector<Direction> Graham::directions(const QVector<QPointF> &points) {
 }
 
 QPointF Graham::findLowestPoint(const QVector<QPointF> &points) {
-  QPointF min = points[i];
+  QPointF min = points[0];
 
   for (int i = 1; i < points.size(); ++i)
     if ((points[i].y() < min.y()) || (points[i].x() < min.x()))
@@ -46,18 +46,18 @@ QVector<QPointF> Graham::buildConvexHull(QVector<QPointF> points) {
 
   int ind = 1;
   while (ind < points.size()) {
-    if (getDirection(res[res.size() - 2], res[res.size() - 1], points[i]) ==
+    if (getDirection(res[res.size() - 2], res[res.size() - 1], points[ind]) ==
         Direction::CW) {
-      res.push_back(points[i]);
+      res.push_back(points[ind]);
       ++ind;
     } else if (getDirection(res[res.size() - 2], res[res.size() - 1],
-                            points[i]) == Direction::CCW) {
+                            points[ind]) == Direction::CCW) {
       res.pop_back();
     } else {
       if (distance(res[res.size() - 2], res[res.size() - 1]) <
-          distance(res[res.size() - 2], points[i])) {
+          distance(res[res.size() - 2], points[ind])) {
         res.pop_back();
-        res.push_back(points[i]);
+        res.push_back(points[ind]);
       }
       ++ind;
     }

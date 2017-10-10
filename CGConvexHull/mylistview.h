@@ -10,20 +10,9 @@ class MyListView : public QListView {
 public:
   MyListView(QWidget *parent = nullptr) : QListView(parent) {}
 
-  void update(Matrix3x2 &tr, bool center, bool redraw = true) {
-    if ((model()->rowCount() > 0) && (!selectedIndexes().empty())) {
-      auto list = selectedIndexes();
-      static_cast<TableModel *>(model())->update(tr, list, center);
-      if (redraw)
-        emit itemsChanged();
-    }
-  }
-
-  void intersect() {
-    if ((model()->rowCount() > 0) && (selectedIndexes().size() == 2)) {
-      static_cast<TableModel *>(model())->intersect(selectedIndexes()[0].row(),
-                                                    selectedIndexes()[1].row());
-    }
+  void update() {
+    static_cast<TableModel *>(model())->update();
+    emit itemsChanged();
   }
 
 signals:

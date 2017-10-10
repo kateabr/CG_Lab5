@@ -19,6 +19,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->canvas->clearArea();
     ui->canvas->repaint();
   });
+
+  connect(ui->applyButton, &QPushButton::clicked, ui->primitivesList,
+          &MyListView::update);
 }
 
 MainWindow::~MainWindow() { delete ui; }
