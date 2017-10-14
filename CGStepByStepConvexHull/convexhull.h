@@ -7,8 +7,6 @@
 
 namespace ConvexHull {
 
-enum class Position { Left, Right, Belongs };
-
 void build(QVector<QPointF> &curHull, QPointF newPoint);
 
 } // namespace ConvexHull

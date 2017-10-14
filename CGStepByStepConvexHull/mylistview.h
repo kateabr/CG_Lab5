@@ -10,8 +10,8 @@ class MyListView : public QListView {
 public:
   MyListView(QWidget *parent = nullptr) : QListView(parent) {}
 
-  void update() {
-    static_cast<TableModel *>(model())->update();
+  void update(bool graham) {
+    static_cast<TableModel *>(model())->update(graham);
     emit itemsChanged();
   }
 

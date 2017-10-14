@@ -14,6 +14,10 @@ void PaintCanvas::setCurrentPrimitive(Primitives p) { currentPrimitive = p; }
 
 void PaintCanvas::setTableModel(TableModel *tM) { tModel = tM; }
 
+void PaintCanvas::setMethod(bool useGrahamScan) { graham = useGrahamScan; }
+
+bool PaintCanvas::getMethod() { return graham; }
+
 void PaintCanvas::setThickness(int val) { penThickness = val; }
 
 void PaintCanvas::clearArea() {
@@ -32,7 +36,7 @@ void PaintCanvas::paintEvent(QPaintEvent *) {
 void PaintCanvas::mousePressEvent(QMouseEvent *e) {
   curPos = e->pos();
   if (e->buttons() & Qt::LeftButton)
-    tModel->add(new DrawablePoint(curPos));
+    tModel->add(new DrawablePoint(curPos), graham);
 
   pixmap.fill();
   repaint();
@@ -41,7 +45,7 @@ void PaintCanvas::mousePressEvent(QMouseEvent *e) {
 void PaintCanvas::mouseReleaseEvent(QMouseEvent *e) {
   mousePressed = false;
   if (currentPrimitive == Primitives::Line) {
-    tModel->add(new DrawableLine(curPos, e->pos()));
+    tModel->add(new DrawableLine(curPos, e->pos()), getMethod());
     pixmap.fill();
     repaint();
   }

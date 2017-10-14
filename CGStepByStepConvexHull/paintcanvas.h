@@ -15,6 +15,8 @@ public:
   QPixmap getPixmap() const;
   void setCurrentPrimitive(Primitives p);
   void setTableModel(TableModel *tM);
+  void setMethod(bool useGrahamScan);
+  bool getMethod();
 
 public slots:
   void setThickness(int);
@@ -37,6 +39,7 @@ private:
   TableModel *tModel;
   Primitives currentPrimitive = Primitives::Point;
   QVector<QPointF> polygonTemporary;
+  bool graham = true;
 };
 
 #endif // PAINTCANVAS_H

@@ -19,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->canvas->clearArea();
     ui->canvas->repaint();
   });
+
+  connect(ui->grahamScan, &QRadioButton::clicked,
+          [&]() { ui->canvas->setMethod(true); });
+  connect(ui->grahamScan, &QRadioButton::clicked,
+          [&]() { ui->canvas->setMethod(false); });
 }
 
 MainWindow::~MainWindow() { delete ui; }
