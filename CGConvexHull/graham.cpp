@@ -25,7 +25,8 @@ QPointF Graham::findLowestPoint(const QVector<QPointF> &points) {
   QPointF min = points[0];
 
   for (int i = 1; i < points.size(); ++i)
-    if ((points[i].y() < min.y()) || (points[i].x() < min.x()))
+    if ((points[i].y() > min.y()) ||
+        ((points[i].y() == min.y()) && (points[i].x() < min.x())))
       min = points[i];
 
   return min;
